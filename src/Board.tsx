@@ -13,39 +13,30 @@ const Board: React.FC = () => {
   const [matchedTiles, setMatchedTiles] = useState<number[]>([]);
   const [moves, setMoves] = useState<number>(0);
 
+  const urlPath =
+    window.location.pathname.length > 1 ? window.location.pathname : "";
+
   const generateTiles = () => {
-    const images = [
-      "/src/assets/images/jana.png",
-      "/src/assets/images/steven.png",
-      "/src/assets/images/emily.png",
-      "/src/assets/images/ondrej.jpg",
-      "/src/assets/images/filipe.jpg",
-      "/src/assets/images/dejan.jpg",
-      "/src/assets/images/corstian.jpg",
-      "/src/assets/images/george.jpg",
-      "/src/assets/images/luca.jpeg",
-      "/src/assets/images/marina.jpg",
-      "/src/assets/images/barry.jpg",
-      "/src/assets/images/tom.jpg",
-      "/src/assets/images/peter.jpg",
-      "/src/assets/images/victoria.jfif",
-      "/src/assets/images/rick.jfif",
-      "/src/assets/images/jana.png",
-      "/src/assets/images/steven.png",
-      "/src/assets/images/emily.png",
-      "/src/assets/images/ondrej.jpg",
-      "/src/assets/images/filipe.jpg",
-      "/src/assets/images/dejan.jpg",
-      "/src/assets/images/corstian.jpg",
-      "/src/assets/images/george.jpg",
-      "/src/assets/images/luca.jpeg",
-      "/src/assets/images/marina.jpg",
-      "/src/assets/images/barry.jpg",
-      "/src/assets/images/tom.jpg",
-      "/src/assets/images/peter.jpg",
-      "/src/assets/images/victoria.jfif",
-      "/src/assets/images/rick.jfif",
+    let images = [
+      "jana.png",
+      "steven.png",
+      "emily.png",
+      "ondrej.jpg",
+      "filipe.jpg",
+      "dejan.jpg",
+      "corstian.jpg",
+      "george.jpg",
+      "luca.jpeg",
+      "marina.jpg",
+      "barry.jpg",
+      "tom.jpg",
+      "peter.jpg",
+      "victoria.jfif",
+      "rick.jfif",
     ];
+    images = [...images, ...images];
+    images = images.map((i) => urlPath + "/images/" + i);
+
     const shuffledImages = shuffle(images);
     const newTiles = shuffledImages.map((image, index) => ({
       id: index,
@@ -85,9 +76,9 @@ const Board: React.FC = () => {
     generateTiles();
   }, []);
 
-  const reset = () =>{
+  const reset = () => {
     location.reload();
-  }
+  };
 
   useEffect(() => {
     const [tile1, tile2] = flippedTiles;
@@ -118,12 +109,13 @@ const Board: React.FC = () => {
 
   return (
     <>
-      <div className="moves">Moves: {moves}</div>
-      {finished && (
+      {finished ? (
         <div className="congrats">
-          You finished the game in {moves} moves! Can you beat that score?&nbsp;
+          You finished the game in {moves} moves! Can you beat that score?&nbsp;&nbsp;
           <button onClick={reset}>Shuffle tiles</button>
         </div>
+      ) : (
+        <div className="moves">Moves: {moves}</div>
       )}
       <div className="board">
         {tiles.map((tile) => (
